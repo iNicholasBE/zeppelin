@@ -80,7 +80,6 @@ The following components are provided under Apache License.
     (Apache 2.0) JetS3t (net.java.dev.jets3t:jets3t:jar:0.9.3) - http://www.jets3t.org/
     (Apache 2.0) Jetty (org.eclipse.jetty:jetty - http://www.eclipse.org/jetty)
     (Apache 2.0) mx4j (mx4j:mx4j:jar:3.0.2) - http://mx4j.sourceforge.net/
-    (Apache 2.0) Quartz Scheduler (org.quartz-scheduler:quartz:jar:2.2.1 - https://quartz-scheduler.org/)
     (Apache 2.0) xml apis (xml-apis:xml-apis:jar:1.4.01 - http://xerces.apache.org/xml-commons/components/external)
     (Apache 2.0) java-xmlbuilder (com.jamesmurty.utils:java-xmlbuilder:jar:1.0 - https://github.com/jmurty/java-xmlbuilder)
     (Apache 2.0) compress-lzf (com.ning:compress-lzf:jar:1.0.3 - https://github.com/ning/compress) Copyright 2009-2010 Ning, Inc.
@@ -465,4 +464,5 @@ Public Domain
 Multiple licenses
 ========================================================================
   (LGPLv2) (GPLv2) (MPL 1.1) Jtransforms (com.github.rwl:jtransforms:2.4.0 - https://sourceforge.net/projects/jtransforms/)
+  (LGPLv3) JobRunr (org.jobrunr:jobrunr:jar:9.0.3 - https://www.jobrunr.io/)
   (CC0 1.0) (BSD-2) HdrHistogram (org.hdrhistogram:HdrHistogram:2.1.12 - http://hdrhistogram.github.io/HdrHistogram/)

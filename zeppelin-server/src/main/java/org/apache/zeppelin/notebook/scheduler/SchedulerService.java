@@ -26,7 +26,12 @@ public interface SchedulerService {
   boolean refreshCron(String noteId);
 
   /**
-   * @return size of queued jobs
+   * @return number of notes with an active cron schedule
    */
   int getJobsSize();
+
+  /**
+   * Stops the scheduler. Runs that are in progress get interrupted.
+   */
+  void shutdown();
 }

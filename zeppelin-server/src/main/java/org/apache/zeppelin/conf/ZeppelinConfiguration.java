@@ -852,6 +852,22 @@ public class ZeppelinConfiguration {
     return getString(ConfVars.ZEPPELIN_NOTEBOOK_CRON_FOLDERS);
   }
 
+  /**
+   * Port of the JobRunr dashboard that shows the cron runs of the notes. 0 (the default) keeps
+   * the dashboard off.
+   */
+  public int getZeppelinNotebookCronDashboardPort() {
+    return getInt(ConfVars.ZEPPELIN_NOTEBOOK_CRON_DASHBOARD_PORT);
+  }
+
+  public String getZeppelinNotebookCronDashboardUsername() {
+    return getString(ConfVars.ZEPPELIN_NOTEBOOK_CRON_DASHBOARD_USERNAME);
+  }
+
+  public String getZeppelinNotebookCronDashboardPassword() {
+    return getString(ConfVars.ZEPPELIN_NOTEBOOK_CRON_DASHBOARD_PASSWORD);
+  }
+
   public boolean isZeppelinNotebookMarkdownEscapeHtml() {
     return getBoolean(ConfVars.ZEPPELIN_NOTEBOOK_MARKDOWN_ESCAPE_HTML);
   }
@@ -1202,6 +1218,9 @@ public class ZeppelinConfiguration {
             true),
     ZEPPELIN_NOTEBOOK_CRON_ENABLE("zeppelin.notebook.cron.enable", false),
     ZEPPELIN_NOTEBOOK_CRON_FOLDERS("zeppelin.notebook.cron.folders", null),
+    ZEPPELIN_NOTEBOOK_CRON_DASHBOARD_PORT("zeppelin.notebook.cron.dashboard.port", 0),
+    ZEPPELIN_NOTEBOOK_CRON_DASHBOARD_USERNAME("zeppelin.notebook.cron.dashboard.username", null),
+    ZEPPELIN_NOTEBOOK_CRON_DASHBOARD_PASSWORD("zeppelin.notebook.cron.dashboard.password", null),
     ZEPPELIN_NOTEBOOK_MARKDOWN_ESCAPE_HTML("zeppelin.notebook.markdown.escape.html", true),
     ZEPPELIN_PROXY_URL("zeppelin.proxy.url", null),
     ZEPPELIN_PROXY_USER("zeppelin.proxy.user", null),

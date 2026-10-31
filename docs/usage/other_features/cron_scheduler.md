@@ -39,7 +39,9 @@ You can set a cron schedule easily by clicking each option such as `1m` and `5m`
 
 ### Cron expression
 
-You can set the cron schedule by filling in this form. Please see [Cron Trigger Tutorial](https://www.quartz-scheduler.org/documentation/quartz-2.2.2/tutorials/tutorial-lesson-06.html) for the available cron syntax.
+You can set the cron schedule by filling in this form. Zeppelin accepts the Quartz cron syntax it has always used (six or seven fields: `seconds minutes hours day-of-month month day-of-week [year]`, `?` for the day field you do not set, day-of-week numbers `1` (Sunday) to `7` (Saturday) or names such as `MON-FRI`). See the [Cron Trigger Tutorial](https://www.quartz-scheduler.org/documentation/quartz-2.2.2/tutorials/tutorial-lesson-06.html) for the syntax.
+
+The schedules are executed by [JobRunr](https://www.jobrunr.io/), which translates the expression. Two Quartz features have no equivalent and are rejected when you save the schedule: `W` (nearest weekday) in the day-of-month field and `#` (the n-th weekday of a month) in the day-of-week field. A year field (for example `0 0 0 1 1 ? 2030`) is honoured by skipping the runs that fall outside the listed years. A run starts within one second of its cron moment.
 
 ### Cron executing user (It is removed from 0.8 where it enforces the cron execution user to be the note owner for security purpose)
 
@@ -54,6 +56,10 @@ When this checkbox is set to "on", the interpreters which are bound to the noteb
 ### Enable cron
 
 Set property **zeppelin.notebook.cron.enable** to **true** in `$ZEPPELIN_HOME/conf/zeppelin-site.xml` and you have to set up [Shiro Authentication](../../setup/security/shiro_authentication.html) also to enable Cron feature.
+
+### Cron dashboard
+
+JobRunr ships a dashboard that lists every scheduled note, its next run and the history of the runs, including the stack trace of a failed run. It is off by default. Set **zeppelin.notebook.cron.dashboard.port** in `$ZEPPELIN_HOME/conf/zeppelin-site.xml` to start it on that port, and **zeppelin.notebook.cron.dashboard.username** and **zeppelin.notebook.cron.dashboard.password** to protect it with HTTP basic authentication. The dashboard shows note ids and names to anyone who can reach the port: keep the port internal when you leave the credentials empty.
 
 ### Run cron selectively on folders
 

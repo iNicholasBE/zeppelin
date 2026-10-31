@@ -34,7 +34,7 @@ import org.apache.zeppelin.interpreter.remote.RemoteInterpreter;
 import org.apache.zeppelin.notebook.repo.NotebookRepo;
 import org.apache.zeppelin.notebook.repo.NotebookRepoWithVersionControl;
 import org.apache.zeppelin.notebook.repo.VFSNotebookRepo;
-import org.apache.zeppelin.notebook.scheduler.QuartzSchedulerService;
+import org.apache.zeppelin.notebook.scheduler.JobRunrSchedulerService;
 import org.apache.zeppelin.resource.LocalResourcePool;
 import org.apache.zeppelin.scheduler.Job;
 import org.apache.zeppelin.scheduler.Job.Status;
@@ -47,7 +47,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.quartz.SchedulerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -92,7 +91,7 @@ class NotebookTest extends AbstractInterpreterTest implements ParagraphJobListen
   private Credentials credentials;
   private AuthenticationInfo anonymous = AuthenticationInfo.ANONYMOUS;
   private StatusChangedListener afterStatusChangedListener;
-  private QuartzSchedulerService schedulerService;
+  private JobRunrSchedulerService schedulerService;
 
   @Override
   @BeforeEach
@@ -111,7 +110,7 @@ class NotebookTest extends AbstractInterpreterTest implements ParagraphJobListen
     ZeppelinEventBus eventBus = new ZeppelinEventBus();
     notebook = new Notebook(zConf, authorizationService, notebookRepo, noteManager, interpreterFactory, interpreterSettingManager, credentials, eventBus);
     notebook.setParagraphJobListener(this);
-    schedulerService = new QuartzSchedulerService(zConf, notebook);
+    schedulerService = new JobRunrSchedulerService(zConf, notebook);
     notebook.initNotebook();
     notebook.waitForFinishInit(1, TimeUnit.MINUTES);
 
@@ -122,9 +121,13 @@ class NotebookTest extends AbstractInterpreterTest implements ParagraphJobListen
   @Override
   @AfterEach
   public void tearDown() throws Exception {
-    super.tearDown();
-    System.clearProperty(ConfVars.ZEPPELIN_NOTEBOOK_PUBLIC.getVarName());
-    System.clearProperty(ConfVars.ZEPPELIN_NOTEBOOK_CRON_ENABLE.getVarName());
+    try {
+      schedulerService.shutdown();
+    } finally {
+      super.tearDown();
+      System.clearProperty(ConfVars.ZEPPELIN_NOTEBOOK_PUBLIC.getVarName());
+      System.clearProperty(ConfVars.ZEPPELIN_NOTEBOOK_CRON_ENABLE.getVarName());
+    }
   }
 
   @Test
@@ -401,7 +404,7 @@ class NotebookTest extends AbstractInterpreterTest implements ParagraphJobListen
   }
 
   @Test
-  void testPersist() throws IOException, SchedulerException {
+  void testPersist() throws IOException {
     String noteId = notebook.createNote("note1", anonymous);
     notebook.processNote(noteId,
       note -> {
@@ -419,7 +422,7 @@ class NotebookTest extends AbstractInterpreterTest implements ParagraphJobListen
   }
 
   @Test
-  void testCreateNoteWithSubject() throws IOException, SchedulerException, RepositoryException {
+  void testCreateNoteWithSubject() throws IOException, RepositoryException {
     AuthenticationInfo subject = new AuthenticationInfo("user1");
     String noteId = notebook.createNote("note1", subject);
     assertNotNull(authorizationService.getOwners(noteId));
@@ -431,7 +434,7 @@ class NotebookTest extends AbstractInterpreterTest implements ParagraphJobListen
   }
 
   @Test
-  void testClearParagraphOutput() throws IOException, SchedulerException {
+  void testClearParagraphOutput() throws IOException {
     String noteId = notebook.createNote("note1", anonymous);
     notebook.processNote(noteId,
       note -> {
@@ -455,7 +458,7 @@ class NotebookTest extends AbstractInterpreterTest implements ParagraphJobListen
   }
 
   @Test
-  void testRunBlankParagraph() throws IOException, SchedulerException, InterruptedException {
+  void testRunBlankParagraph() throws IOException, InterruptedException {
     String noteId = notebook.createNote("note1", anonymous);
     notebook.processNote(noteId,
       note -> {
@@ -1002,7 +1005,7 @@ class NotebookTest extends AbstractInterpreterTest implements ParagraphJobListen
   }
 
   @Test
-  void testCronNoteInTrash() throws InterruptedException, IOException, SchedulerException {
+  void testCronNoteInTrash() throws InterruptedException, IOException {
     String noteId = notebook.createNote("~Trash/NotCron", anonymous);
     // use write lock because we overwrite the note config
     notebook.processNote(noteId,

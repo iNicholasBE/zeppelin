@@ -771,6 +771,21 @@
   <value></value>
   <description>Notebook cron folders</description>
 </property>
+<property>
+  <name>zeppelin.notebook.cron.dashboard.port</name>
+  <value>0</value>
+  <description>Port of the JobRunr dashboard that lists the scheduled notes and their runs, 0 keeps it off</description>
+</property>
+<property>
+  <name>zeppelin.notebook.cron.dashboard.username</name>
+  <value></value>
+  <description>Username for HTTP basic authentication on the cron dashboard</description>
+</property>
+<property>
+  <name>zeppelin.notebook.cron.dashboard.password</name>
+  <value></value>
+  <description>Password for HTTP basic authentication on the cron dashboard</description>
+</property>
 -->
 
 <property>

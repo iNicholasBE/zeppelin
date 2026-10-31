@@ -86,8 +86,8 @@ import org.apache.zeppelin.notebook.GsonNoteParser;
 import org.apache.zeppelin.notebook.Paragraph;
 import org.apache.zeppelin.notebook.repo.NotebookRepo;
 import org.apache.zeppelin.notebook.repo.NotebookRepoSync;
+import org.apache.zeppelin.notebook.scheduler.JobRunrSchedulerService;
 import org.apache.zeppelin.notebook.scheduler.NoSchedulerService;
-import org.apache.zeppelin.notebook.scheduler.QuartzSchedulerService;
 import org.apache.zeppelin.notebook.scheduler.SchedulerService;
 import org.apache.zeppelin.plugin.PluginManager;
 import org.apache.zeppelin.search.EmbeddingSearch;
@@ -217,7 +217,7 @@ public class ZeppelinServer implements AutoCloseable {
                 .to(NoteEventListener.class)
                 .in(Singleton.class);
             if (zConf.isZeppelinNotebookCronEnable()) {
-              bind(QuartzSchedulerService.class).to(SchedulerService.class).in(Singleton.class);
+              bind(JobRunrSchedulerService.class).to(SchedulerService.class).in(Singleton.class);
             } else {
               bind(NoSchedulerService.class).to(SchedulerService.class).in(Singleton.class);
             }
@@ -390,6 +390,8 @@ public class ZeppelinServer implements AutoCloseable {
         if (sharedServiceLocator != null) {
           // Stop after Jetty so no new connection can restart the heartbeat scheduler.
           sharedServiceLocator.getService(NotebookServer.class).stopHeartbeatScheduler();
+          // Stop the note cron scheduler before the notebook goes away.
+          sharedServiceLocator.getService(SchedulerService.class).shutdown();
           if (assistantModule != null) {
             assistantModule.close();
           }

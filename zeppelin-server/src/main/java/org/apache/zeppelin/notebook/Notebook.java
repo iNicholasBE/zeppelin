@@ -64,7 +64,6 @@ import org.apache.zeppelin.scheduler.NamedThreadFactory;
 import org.apache.zeppelin.user.AuthenticationInfo;
 import org.apache.zeppelin.user.Credentials;
 import org.apache.zeppelin.util.ExecutorUtil;
-import org.quartz.SchedulerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -94,8 +93,6 @@ public class Notebook {
    * Main constructor \w manual Dependency Injection
    *
    * @throws IOException
-   *
-   * @throws SchedulerException
    */
   public Notebook(
       ZeppelinConfiguration zConf,

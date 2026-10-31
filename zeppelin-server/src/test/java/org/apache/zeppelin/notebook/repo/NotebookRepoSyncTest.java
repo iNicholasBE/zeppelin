@@ -60,7 +60,6 @@ import org.apache.zeppelin.user.Credentials;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.quartz.SchedulerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -271,7 +270,7 @@ class NotebookRepoSyncTest {
   }
 
   @Test
-  void testOneWaySyncOnReloadedList() throws IOException, SchedulerException {
+  void testOneWaySyncOnReloadedList() throws IOException {
     zConf.setProperty(ConfVars.ZEPPELIN_NOTEBOOK_DIR.getVarName(),
         mainNotebookDir.getAbsolutePath());
     zConf.setProperty(ConfVars.ZEPPELIN_NOTEBOOK_ONE_WAY_SYNC.getVarName(), "true");
@@ -320,7 +319,7 @@ class NotebookRepoSyncTest {
   }
 
   @Test
-  void testCheckpointOneStorage() throws IOException, SchedulerException {
+  void testCheckpointOneStorage() throws IOException {
     zConf.setProperty(ConfVars.ZEPPELIN_NOTEBOOK_STORAGE.getVarName(),
         "org.apache.zeppelin.notebook.repo.GitNotebookRepo");
 

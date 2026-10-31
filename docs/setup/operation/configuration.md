@@ -515,6 +515,24 @@ Sources descending by priority:
     <td>comma-separated list of folder, where cron is allowed</td>
   </tr>
   <tr>
+    <td><h6 class="properties">ZEPPELIN_NOTEBOOK_CRON_DASHBOARD_PORT</h6></td>
+    <td><h6 class="properties">zeppelin.notebook.cron.dashboard.port</h6></td>
+    <td>0</td>
+    <td>Port of the JobRunr dashboard that lists the scheduled notes and their runs; 0 keeps it off</td>
+  </tr>
+  <tr>
+    <td><h6 class="properties">ZEPPELIN_NOTEBOOK_CRON_DASHBOARD_USERNAME</h6></td>
+    <td><h6 class="properties">zeppelin.notebook.cron.dashboard.username</h6></td>
+    <td></td>
+    <td>Username for HTTP basic authentication on the cron dashboard</td>
+  </tr>
+  <tr>
+    <td><h6 class="properties">ZEPPELIN_NOTEBOOK_CRON_DASHBOARD_PASSWORD</h6></td>
+    <td><h6 class="properties">zeppelin.notebook.cron.dashboard.password</h6></td>
+    <td></td>
+    <td>Password for HTTP basic authentication on the cron dashboard</td>
+  </tr>
+  <tr>
     <td><h6 class="properties">ZEPPELIN_NOTE_CACHE_THRESHOLD</h6></td>
     <td><h6 class="properties">zeppelin.note.cache.threshold</h6></td>
     <td>50</td>

@@ -27,4 +27,9 @@ public class NoSchedulerService implements SchedulerService {
   public int getJobsSize() {
     return 0;
   }
+
+  @Override
+  public void shutdown() {
+    // nothing to stop
+  }
 }

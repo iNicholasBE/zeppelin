@@ -70,7 +70,7 @@ import org.apache.zeppelin.notebook.Paragraph;
 import org.apache.zeppelin.notebook.exception.NotePathAlreadyExistsException;
 import org.apache.zeppelin.notebook.repo.NotebookRepo;
 import org.apache.zeppelin.notebook.repo.VFSNotebookRepo;
-import org.apache.zeppelin.notebook.scheduler.QuartzSchedulerService;
+import org.apache.zeppelin.notebook.scheduler.JobRunrSchedulerService;
 import org.apache.zeppelin.notebook.scheduler.SchedulerService;
 import org.apache.zeppelin.rest.exception.ForbiddenException;
 import org.apache.zeppelin.rest.exception.NoteNotFoundException;
@@ -102,6 +102,8 @@ class NotebookServiceTest {
   private ServiceCallback callback = mock(ServiceCallback.class);
 
   private NoteParser noteParser;
+
+  private JobRunrSchedulerService schedulerService;
 
 
   @BeforeEach
@@ -160,7 +162,7 @@ class NotebookServiceTest {
             credentials,
             eventBus);
     searchService = new LuceneSearch(zConf, notebook);
-    QuartzSchedulerService schedulerService = new QuartzSchedulerService(zConf, notebook);
+    schedulerService = new JobRunrSchedulerService(zConf, notebook);
     notebook.initNotebook();
     notebook.waitForFinishInit(1, TimeUnit.MINUTES);
     notebookService =
@@ -175,6 +177,7 @@ class NotebookServiceTest {
 
   @AfterEach
   void tearDown() {
+    schedulerService.shutdown();
     notebookDir.delete();
     if (confDir != null){
       confDir.delete();

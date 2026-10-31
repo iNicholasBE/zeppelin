@@ -510,9 +510,17 @@
     </dependency>
 
     <dependency>
-      <groupId>org.quartz-scheduler</groupId>
-      <artifactId>quartz</artifactId>
-      <version>${quartz.scheduler.version}</version>
+      <groupId>org.jobrunr</groupId>
+      <artifactId>jobrunr</artifactId>
+      <version>${jobrunr.version}</version>
+      <exclusions>
+        <!-- JobRunr needs ASM only to analyse job lambdas; the cron scheduler uses JobRequests.
+             Jetty already provides org.ow2.asm:asm on the classpath. -->
+        <exclusion>
+          <groupId>org.ow2.asm</groupId>
+          <artifactId>asm</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
 
     <dependency>

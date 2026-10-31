@@ -47,6 +47,7 @@ import org.apache.zeppelin.notebook.Notebook;
 import org.apache.zeppelin.notebook.Paragraph;
 import org.apache.zeppelin.notebook.AuthorizationService;
 import org.apache.zeppelin.notebook.repo.NotebookRepoWithVersionControl;
+import org.apache.zeppelin.notebook.scheduler.QuartzCron;
 import org.apache.zeppelin.notebook.scheduler.SchedulerService;
 import org.apache.zeppelin.rest.exception.BadRequestException;
 import org.apache.zeppelin.rest.exception.ForbiddenException;
@@ -62,7 +63,6 @@ import org.apache.zeppelin.service.ServiceContext;
 import org.apache.zeppelin.service.exception.JobManagerForbiddenException;
 import org.apache.zeppelin.socket.NotebookServer;
 import org.apache.zeppelin.user.AuthenticationInfo;
-import org.quartz.CronExpression;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -1075,7 +1075,7 @@ public class NotebookRestApi extends AbstractRestApi {
         checkIfUserCanRun(noteId, "Insufficient privileges you cannot set a cron job for this note");
         checkIfNoteSupportsCron(note);
 
-        if (!CronExpression.isValidExpression(request.getCronString())) {
+        if (!QuartzCron.isValid(request.getCronString())) {
           return new JsonResponse<>(Status.BAD_REQUEST, "wrong cron expressions.").build();
         }
 
